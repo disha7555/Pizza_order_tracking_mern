@@ -1,0 +1,98 @@
+#root {
+  margin-top: 0%;
+  width: 100%;
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
+  
+}
+/* 
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+} */
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.main-head-container{
+  background-color: #f4e9d2;
+  width:100%;
+}
+
+.container{
+  width:100%;
+}
+
+.add-button{
+  &:hover{
+    color:white;
+    background-color:#EF4444;
+    transition: 0.5s;
+  }
+}
+.cart{
+  background-color:#f4e9d2 ;
+  color: #9c7248;
+  &:hover{
+    background-color:#8a5e3e;
+    color:#e0caa6;
+  }
+}
+
+.cart-container{
+  background-color:#f4e9d2 ;
+ 
+  &:hover{
+    background-color:#8a5e3e;
+  }
+}
+
+  @media (max-width: 339px) {
+    .logo_img{
+      width: 3rem;
+      height: 3rem;
+    }
+    }
+
+.order_now,.my_button{
+  &:hover{
+    background-color:#DC4D01;
+    color: white;
+}}
+
+
+/* register login css */
+form{
+  background-color: white;
+}
+.register-page-content{
+  background-color: #f4e9d2;
+}
