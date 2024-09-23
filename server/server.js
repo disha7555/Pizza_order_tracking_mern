@@ -10,7 +10,7 @@ const router=require('./routes/auth_route');
 app.use(express.json());
 
 
-require('./connection');
+require('./utils/connection');
 
 app.use("/api/auth", router);
 
