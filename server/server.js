@@ -7,19 +7,11 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const MongoStore=require('connect-mongo');
 const cors = require('cors');
-const port=process.env.PORT || 3303;
+const port=process.env.PORT || 5000;
 const app=express();
 //db connection file
 const connectDB=require('./utils/db');
 const router=require('./routes/auth_route');
-
-//passport config file
-const passportInit=require('./utils/passportConfig')
-passportInit(passport);
-
-//initialize passport and session
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Connect to MongoDB
 connectDB();
@@ -35,7 +27,11 @@ app.use(cors({
   }));
 
   //express session
+
+
 //session config & session store
+
+const url=process.env.MONGODB_CONNECTION_URL;
 app.use(session({
     secret:process.env.COOKIE_SECRET,
     resave: false,
@@ -47,9 +43,18 @@ app.use(session({
         autoRemove: 'native'   
     }),
     cookie: { maxAge: 1000 * 60 * 60 * 24},
-    httpOnly: true, // Mitigate XSS
-    secure: true, // Uncomment if using HTTPS
+    // httpOnly: true, // Mitigate XSS
+    // secure: true, // Uncomment if using HTTPS
 }));
+
+
+//passport config file
+const passportInit=require('./utils/passportConfig')
+passportInit(passport);
+
+//initialize passport and session
+app.use(passport.initialize());
+app.use(passport.session());
 
 //for flash msgs
 app.use(flash());
