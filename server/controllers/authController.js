@@ -43,6 +43,12 @@ exports.register = async (req, res) => {
         });
 
     } catch (err) {
+        if (err.name === 'ValidationError') {
+            // Return validation error messages
+            const errors = Object.values(err.errors).map(error => error.message);
+            return res.status(400).json({ message: errors });
+        }
+
         console.error(err.message);
         res.status(500).json({ msg: 'Server error during registration.' });
     }
