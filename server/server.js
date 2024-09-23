@@ -10,10 +10,12 @@ const router=require('./routes/auth_route');
 app.use(express.json());
 
 
-require('./utils/connection');
+const dbConnection=require('./utils/db');
 
 app.use("/api/auth", router);
 
-app.listen(port,()=>{
-    console.log(`listening to the port ${port}`);
+dbConnection().then(()=>{
+    app.listen(port,()=>{
+        console.log(`listening to the port ${port}`);
+    });
 });
