@@ -13,7 +13,6 @@ exports.register = async (req, res) => {
     if (password.length < 6) {
         return res.status(400).json({ message: 'Password must be at least 6 characters' });
     }
-
     try {
         const userExist = await User.findOne({ email });
         if (userExist) {
@@ -33,14 +32,14 @@ exports.register = async (req, res) => {
 
         // Save user
         await newUser.save();
-
+        return res.status(201).json({ success: true,message: 'Registration successful.', user: { id: newUser._id, username: newUser.username, email: newUser.email } });
+      
         // Automatically log in after registration
-        req.login(newUser, (err) => {
-            if (err) {
-                return res.status(500).json({ msg: 'Error logging in after registration.' });
-            }
-            return res.status(201).json({ msg: 'Registration successful.', user: { id: newUser._id, username: newUser.username, email: newUser.email } });
-        });
+        // req.login(newUser, (err) => {
+        //     if (err) {
+        //         return res.status(500).json({ message: 'Error logging in after registration.' });
+        //     }
+        //      });
 
     } catch (err) {
         if (err.name === 'ValidationError') {
@@ -50,7 +49,7 @@ exports.register = async (req, res) => {
         }
 
         console.error(err.message);
-        res.status(500).json({ msg: 'Server error during registration.' });
+        res.status(500).json({ message: 'Server error during registration.' });
     }
 };
 
@@ -61,14 +60,14 @@ exports.login = async (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.status(400).json({ msg: info.message });
+            return res.status(400).json({ message: info.message });
         }
 
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);
             }
-            return res.json({ msg: 'Login successful.', user: { id: user._id, username: user.username, email: user.email } });
+            return res.json({success: true, message: 'Login successful.', user: { id: user._id, username: user.username, email: user.email } });
         });
     })(req, res, next);
 };
@@ -77,8 +76,17 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res) => {
     req.logout((err) => {
         if (err) {
-            return res.status(500).json({ msg: 'Error logging out.' });
+            return res.status(500).json({ message: 'Error logging out.'});
         }
-        res.json({ msg: 'Logged out successfully.' });
+        res.json({ message: 'Logged out successfully.',isAuthenticated: false  });
     });
+};
+
+//status 
+exports.status= (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.json({ isAuthenticated: true, user: req.user });
+    } else {
+        return res.json({ isAuthenticated: false });
+    }
 };

@@ -11,8 +11,7 @@ const url=process.env.MONGODB_CONNECTION_URL;
 const connectDB = async () => {
   try {
     await mongoose.connect(url, { // Replace with your MongoDB URI
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      
     //   useCreateIndex: true, // To fix deprecation warnings
     });
     console.log('MongoDB Connected');

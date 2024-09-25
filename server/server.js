@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //cors configuration
 app.use(cors({
-    origin: 'http://localhost:3000', // React app domain
+    origin: 'http://localhost:5173', // React app domain
     credentials: true, // Allow cookies to be sent
   }));
 
@@ -31,20 +31,33 @@ app.use(cors({
 
 //session config & session store
 
-const url=process.env.MONGODB_CONNECTION_URL;
+console.log(process.env.MONGODB_CONNECTION_URL);
+// app.use(session({
+//     secret:process.env.COOKIE_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: MongoStore.create({
+//         mongoUrl:process.env.MONGODB_CONNECTION_URL,
+//         collectionName: 'sessions',
+//         ttl: 14 * 24 * 60 * 60, 
+//         autoRemove: 'native'   
+//     }),
+//     cookie: { maxAge: 1000 * 60 * 60 * 24},
+//     // httpOnly: true, // Mitigate XSS
+//     // secure: true, // Uncomment if using HTTPS
+// }));
+//session config & session store
 app.use(session({
     secret:process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-        mongoUrl:url,
+        mongoUrl:process.env.MONGODB_CONNECTION_URL,
         collectionName: 'sessions',
         ttl: 14 * 24 * 60 * 60, 
         autoRemove: 'native'   
     }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24},
-    // httpOnly: true, // Mitigate XSS
-    // secure: true, // Uncomment if using HTTPS
+    cookie: { maxAge: 1000 * 60 * 60 * 24}
 }));
 
 
