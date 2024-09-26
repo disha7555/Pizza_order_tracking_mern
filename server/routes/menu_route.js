@@ -1,7 +1,10 @@
 const express = require('express');
 const menuRouter = express.Router();
 const menuController = require('../controllers/menuController');
-
+const upload=require('../utils/multerConfig');
 menuRouter.get('/list_items', menuController.index);
-
+menuRouter.get('/find_item/:id',menuController.itemFetch);
+menuRouter.put('/update_item/:id',menuController.itemUpdate);
+menuRouter.post('/add_item',upload.single('image'),menuController.createMenuItem);
+menuRouter.delete('/delete_item/:id',menuController.itemDelete);
 module.exports=menuRouter;

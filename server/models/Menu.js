@@ -4,14 +4,6 @@ const MenuSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    description:{
-        type:String,
-        required:String
-    },
-    size:{
-        type:String,
-        required:true
-    },
     image:{
         type:String,
         required:true
@@ -19,7 +11,18 @@ const MenuSchema=new mongoose.Schema({
     price:{
         type:String,
         required:true
+    },
+    size:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:String
     }
+    
+    
+    
 });
 const Menu = mongoose.model('Menu', MenuSchema);
 module.exports = Menu;

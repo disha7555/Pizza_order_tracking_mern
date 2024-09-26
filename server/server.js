@@ -7,6 +7,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const MongoStore=require('connect-mongo');
 const cors = require('cors');
+const path=require('path');
 const port=process.env.PORT || 5000;
 const app=express();
 //db connection file
@@ -102,6 +103,8 @@ app.use((req, res, next) => {
 //routers
 app.use("/api/auth", router);
 app.use("/api",menuRouter);
+app.use('/images', express.static(path.join(__dirname, '../client/public/images')));
+
 
 //connectDB().then(()=>{
     app.listen(port,()=>{

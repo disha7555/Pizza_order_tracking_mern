@@ -16,7 +16,7 @@ const Home = () => {
         const fetchMenuItems = async () => {
             try {
                 const response = await axios.get(`${API_URL}/list_items`);
-                console.log(response.data);
+                //console.log(response.data);
                 setMenuItems(response.data);
                 setLoading(false);
             } catch (err) {
@@ -52,7 +52,7 @@ const Home = () => {
               </div>
               <div className="second-head">
                 <p className="text-2xl sm:text-4xl lg:text-4xl xl:text-6xl pt-2 md:pt-3 font-bold">
-                  <span>Don't wait !</span>
+                  <span>Don&apos;t wait !</span>
                 </p>
               </div>
               <div className="third-head mt-5">

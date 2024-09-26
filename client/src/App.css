@@ -83,6 +83,7 @@
     }
 
 .order_now,.my_button{
+  color:white;
   &:hover{
     background-color:#DC4D01;
     color: white;
@@ -182,4 +183,9 @@ th, td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px
+}
+
+.additemlink .nav-link {
+  color: white;  /* Set the desired color for this specific link */
+  text-decoration: none; /* Remove underline if needed */
 }

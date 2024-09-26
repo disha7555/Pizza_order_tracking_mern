@@ -30,7 +30,7 @@ const handleChange=(e)=>{
 }
 const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log('User Data:', userData); // Log userdata before sending
+  //console.log('User Data:', userData); // Log userdata before sending
 
   try {
     const response = await axios.post(`${API_URL}/register`, userData);

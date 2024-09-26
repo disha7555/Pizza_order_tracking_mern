@@ -27,12 +27,12 @@ const handleChange=(e)=>{
 }
 const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log('User Data:', loginUserData); // Log loginUserData before sending
+  //console.log('User Data:', loginUserData); // Log loginUserData before sending
 
   try {
     const response = await axios.post(`${API_URL}/login`, loginUserData);
     
-    console.log('Response from server:', response.data);
+    //console.log('Response from server:', response.data);
 
     if (response.data.success) {
       handleAuth(true);

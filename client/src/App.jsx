@@ -9,6 +9,7 @@ import Login from "./Login";
 import CustomerOrders from "./CustomerOrders";
 import AdminOrders from "./AdminOrders";
 import Dashboard from "./Dashboard";
+import AddItem from "./AddItem";
 import axios from 'axios';
 import UpdateItem from "./UpdateItem";
 import { useEffect, useState } from "react";
@@ -18,26 +19,26 @@ const API_URL = import.meta.env.VITE_API_URL_AUTH;
 function App() {
   const [auth, setAuth] = useState(false);
   const [user,setUser]=useState(null);
-  const [updateitemid,setUpdateItemId]=useState(null);
+  //const [updateitemid,setUpdateItemId]=useState(null);
   const handleAuth = (authval) => {
     setAuth(authval);
   };
   const handleUser = (userval) => {
     setUser(userval);
   };
-  const handleUpdateItemId = (itemid) => {
-    setUpdateItemId(itemid);
-  };
+  // const handleUpdateItemId = (itemid) => {
+  //   setUpdateItemId(itemid);
+  // };
   useEffect(()=>{
     const checkLoggedIn= async()=>{
-      console.log("Checking logged-in status from:", API_URL);  
+     // console.log("Checking logged-in status from:", API_URL);  
       try{
           const response=await axios.get(`${API_URL}/status`);
-          console.log("Response:", response);
+         // console.log("Response:", response);
           // if(response.data.isAuthenticated && response.data.user){
             const isAuthenticated= response.data.isAuthenticated;
             const user=response.data.user;
-            console.log(isAuthenticated,user)
+           // console.log(isAuthenticated,user)
             setAuth(true);
             setUser(user);
           // }
@@ -61,8 +62,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/cutomerorders" element={<CustomerOrders />} />
           <Route path="/adminorders" element={<AdminOrders />} />
-          <Route path="/dashboard" element={<Dashboard handleUpdateItemId={handleUpdateItemId}/>} />
-          <Route path="/updateitem" element={<UpdateItem updateitemid={updateitemid} />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/additem" element={<AddItem/>} />
+          {/* <Route path="/updateitem" element={<UpdateItem updateitemid={updateitemid} />} /> */}
+          <Route path="/updateitem/:updateitemid1" element={<UpdateItem />} />
         </Routes>
       </BrowserRouter>
     </>
