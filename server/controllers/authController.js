@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
 
         // Save user
         await newUser.save();
-        return res.status(201).json({ success: true,message: 'Registration successful.', user: { id: newUser._id, username: newUser.username, email: newUser.email } });
+        return res.status(201).json({ success: true,message: 'Registration successful.', user: { id: newUser._id, name: newUser.name, email: newUser.email } });
       
         // Automatically log in after registration
         // req.login(newUser, (err) => {
@@ -67,7 +67,7 @@ exports.login = async (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            return res.json({success: true, message: 'Login successful.', user: { id: user._id, username: user.username, email: user.email } });
+            return res.json({success: true, message: 'Login successful.', user: { id: user._id,email: user.email,role:user.role } });
         });
     })(req, res, next);
 };
@@ -85,6 +85,7 @@ exports.logout = (req, res) => {
 //status 
 exports.status= (req, res) => {
     if (req.isAuthenticated()) {
+        console.log(req.user)
         return res.json({ isAuthenticated: true, user: req.user });
     } else {
         return res.json({ isAuthenticated: false });

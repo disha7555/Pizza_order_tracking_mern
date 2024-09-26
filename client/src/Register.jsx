@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 
 const Register=()=>{
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL_AUTH;
 
   const [userData,setUserData]=useState({
     name:'',

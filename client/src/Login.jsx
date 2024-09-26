@@ -5,7 +5,7 @@ import toastrConfig from "./toastrConfig";
 import toastr from "toastr";
 import { useNavigate } from 'react-router-dom';  
 import { useEffect } from "react";
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL_AUTH;
 
 
 const Login = (props) => {
@@ -15,7 +15,7 @@ const Login = (props) => {
     email:'',
 });
 const navigate = useNavigate();
-const {handleAuth}=props;
+const {handleAuth,handleUser}=props;
 useEffect(() => {
   toastrConfig(); // Call the toastr configuration
 }, []);
@@ -36,6 +36,7 @@ const handleSubmit = async (e) => {
 
     if (response.data.success) {
       handleAuth(true);
+      handleUser(response.data.user);
       toastr.success(response.data.message); // Display success message
       // Optionally, reset the form fields
       setloginUserData({ email: '', password: '' });
@@ -100,5 +101,6 @@ const handleSubmit = async (e) => {
 Login.propTypes = {
   
 handleAuth: PropTypes.func.isRequired, // handleAuth is a function and required
+handleUser: PropTypes.func.isRequired, 
 };
 export default Login;

@@ -1,8 +1,42 @@
 //import React from 'react'
 import { useState } from "react";
-import menu from "./menu";
-const home = () => {
-  const [menudata, setMenuData] = useState(menu);
+//import menu from "./menu";
+import { useEffect } from "react";
+import axios from "axios";
+const Home = () => {
+  //const [menudata, setMenuData] = useState(menu);
+  const [menuItems, setMenuItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const API_URL = import.meta.env.VITE_API_URL_API;
+
+    // Fetch menu items on component mount
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/list_items`);
+                console.log(response.data);
+                setMenuItems(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError('Error fetching menu items');
+                setLoading(false);
+                console.log(err);
+            }
+        };
+
+        fetchMenuItems();
+    }, [API_URL]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
   return (
     <>
       <div className="home-container">
@@ -46,7 +80,7 @@ const home = () => {
             Menu
           </div>
           <div className="menu-contaier grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ml-7">
-            {menudata.menuitems.map((item) => {
+            {menuItems.map((item) => {
               return (
                 <div key={item._id} className="card mx-auto ">
                   <div className="item_img_name">
@@ -83,4 +117,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;

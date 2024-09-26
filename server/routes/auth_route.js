@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-router.get('/', (req, res) => {
-    res.status(200).send("Welcome");
-});
+// router.get('/', (req, res) => {
+//     res.status(200).send("Welcome");
+// });
 
 // Registration route
 router.post('/register', authController.register);

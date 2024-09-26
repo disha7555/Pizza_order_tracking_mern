@@ -6,20 +6,27 @@ import Home from "./Home";
 import Navbar from "./Navbar";
 import Register from "./Register";
 import Login from "./Login";
-import Orders from "./Orders";
+import CustomerOrders from "./CustomerOrders";
+import AdminOrders from "./AdminOrders";
+import Dashboard from "./Dashboard";
 import axios from 'axios';
+import UpdateItem from "./UpdateItem";
 import { useEffect, useState } from "react";
 //import { AuthProvider } from './authContext';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL_AUTH;
 function App() {
   const [auth, setAuth] = useState(false);
   const [user,setUser]=useState(null);
+  const [updateitemid,setUpdateItemId]=useState(null);
   const handleAuth = (authval) => {
     setAuth(authval);
   };
   const handleUser = (userval) => {
     setUser(userval);
+  };
+  const handleUpdateItemId = (itemid) => {
+    setUpdateItemId(itemid);
   };
   useEffect(()=>{
     const checkLoggedIn= async()=>{
@@ -50,9 +57,12 @@ function App() {
         <Navbar auth={auth} user={user} handleAuth={handleAuth} handleUser={handleUser}/>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login handleAuth={handleAuth} />} />
+          <Route path="/login" element={<Login handleAuth={handleAuth} handleUser={handleUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/cutomerorders" element={<CustomerOrders />} />
+          <Route path="/adminorders" element={<AdminOrders />} />
+          <Route path="/dashboard" element={<Dashboard handleUpdateItemId={handleUpdateItemId}/>} />
+          <Route path="/updateitem" element={<UpdateItem updateitemid={updateitemid} />} />
         </Routes>
       </BrowserRouter>
     </>

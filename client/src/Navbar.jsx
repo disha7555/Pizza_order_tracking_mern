@@ -10,13 +10,19 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 const Navbar = (props) => {
    
 const navigate = useNavigate();
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL_AUTH;
   // const { isAuthenticated, user, logout } = useContext(AuthContext);
   const { auth,user,handleAuth,handleUser } = props;
+  if(user){
+    console.log("user hook",user);
+    console.log(user.role);
+  }
+  //console.log("user role",user.role);
   const handleLogout=async()=>{
     try {
         const response=await axios.get(`${API_URL}/logout`);
-        toastr.success(response.data.message); // Make a logout request to the backend
+        toastr.success(response.data.message);
+       // Make a logout request to the backend
         handleUser(null);
         handleAuth(false);
         console.log(auth);
@@ -48,14 +54,31 @@ const API_URL = import.meta.env.VITE_API_URL;
               </NavLink>
             </li>
             {auth ? (
-
-
-<>
-              <li className="px-1 ml-1 md:ml-3">
-                <NavLink to="/orders" className="text-gray" >Orders</NavLink>
+                <>
+                {user?.role==="customer"?(<>
+                 <li className="px-1 ml-1 md:ml-3">
+                <NavLink to="/cutomerorders" className="text-gray" >Orders</NavLink>
               </li>
+                </>):(<>
+                    {/* <li className="px-1 ml-1 md:ml-3">
+                <NavLink to="/adminorders" className="text-gray" >Orders</NavLink>
+              </li> */}
+
+<div className="custom-dropdown px-1 ml-1 md:ml-3">
+  <button className="dropdown-btn">Control</button>
+  <div className="dropdown-content ">
+    <NavLink to="/adminorders">Orders</NavLink>
+    <NavLink to="/dashboard">Dashborad</NavLink>
+
+  </div>
+</div>
+                </>)}
+            
+            
+               
+              
               <li className="px-1 ml-1 md:ml-3 ">
-              <button className="link-button" onClick={handleLogout}>Logout</button>
+              <button className="link-button text-gray" onClick={handleLogout} >Logout</button>
               </li>
             </>
             ):(

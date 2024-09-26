@@ -12,7 +12,7 @@ const app=express();
 //db connection file
 const connectDB=require('./utils/db');
 const router=require('./routes/auth_route');
-
+const menuRouter=require('./routes/menu_route');
 // Connect to MongoDB
 connectDB();
 
@@ -98,7 +98,10 @@ app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
   })
+
+//routers
 app.use("/api/auth", router);
+app.use("/api",menuRouter);
 
 //connectDB().then(()=>{
     app.listen(port,()=>{
