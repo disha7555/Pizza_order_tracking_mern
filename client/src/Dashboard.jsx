@@ -33,7 +33,7 @@ const Dashboard = () => {
         };
 
         fetchMenuItems();
-    }, );
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -89,7 +89,7 @@ const Dashboard = () => {
                          <td>{item.name}</td>
                          <td>{item.description}</td>
                          <td>{item.size}</td>
-                         <td>{item.price}</td>
+                         <td>₹{item.price}</td>
                          <td><DriveFileRenameOutlineIcon onClick={() => handleEditItems(item._id)} style={{ cursor: 'pointer' }}/></td>
                          <td><DeleteIcon onClick={() => handleDeleteItems(item._id)} style={{ cursor: 'pointer' }}/></td>
                      </tr>

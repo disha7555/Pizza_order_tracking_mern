@@ -38,6 +38,11 @@ const handleSubmit = async (e) => {
       handleAuth(true);
       handleUser(response.data.user);
       toastr.success(response.data.message); // Display success message
+
+       // Store user data and auth status in local storage
+       localStorage.setItem('user', JSON.stringify(response.data.user));
+       localStorage.setItem('isAuthenticated', JSON.stringify(true));
+
       // Optionally, reset the form fields
       setloginUserData({ email: '', password: '' });
      setTimeout(() => {

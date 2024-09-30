@@ -7,12 +7,27 @@ import axios from "axios";
 import toastr from 'toastr';
 import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useEffect } from 'react';
 const Navbar = (props) => {
    
 const navigate = useNavigate();
 const API_URL = import.meta.env.VITE_API_URL_AUTH;
   // const { isAuthenticated, user, logout } = useContext(AuthContext);
   const { auth,user,handleAuth,handleUser } = props;
+let isAuthenticated;
+ // Check local storage for user data and authentication state on component mount
+ useEffect(() => {
+  const storedUser = localStorage.getItem('user');
+ isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+  if (storedUser) {
+      handleUser(JSON.parse(storedUser));
+  }
+
+  handleAuth(isAuthenticated);
+}, [isAuthenticated]);
+
+
   if(user){
     console.log("user hook",user);
     console.log(user.role);
@@ -22,7 +37,13 @@ const API_URL = import.meta.env.VITE_API_URL_AUTH;
     try {
         const response=await axios.get(`${API_URL}/logout`);
         toastr.success(response.data.message);
+
        // Make a logout request to the backend
+
+       // Clear user data and auth status from local storage
+      localStorage.removeItem('user');
+      localStorage.removeItem('isAuthenticated');
+
         handleUser(null);
         handleAuth(false);
         console.log(auth);

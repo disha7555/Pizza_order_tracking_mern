@@ -14,6 +14,7 @@ const app=express();
 const connectDB=require('./utils/db');
 const router=require('./routes/auth_route');
 const menuRouter=require('./routes/menu_route');
+const cartRouter=require('./routes/cart_route');
 // Connect to MongoDB
 connectDB();
 
@@ -104,7 +105,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", router);
 app.use("/api",menuRouter);
 app.use('/images', express.static(path.join(__dirname, '../client/public/images')));
-
+app.use('/api/',cartRouter)
 
 //connectDB().then(()=>{
     app.listen(port,()=>{

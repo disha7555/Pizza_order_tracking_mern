@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
 const MenuSchema=new mongoose.Schema({
+    
     name:{
         type:String,
         required:true
@@ -9,7 +10,7 @@ const MenuSchema=new mongoose.Schema({
         required:true
     },
     price:{
-        type:String,
+        type:Number,
         required:true
     },
     size:{

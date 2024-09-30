@@ -1,42 +1,157 @@
 //import React from 'react'
 import { useState } from "react";
 //import menu from "./menu";
+import PropTypes from 'prop-types';
 import { useEffect } from "react";
+import toastr from "toastr";
 import axios from "axios";
-const Home = () => {
+const Home = (props) => {
   //const [menudata, setMenuData] = useState(menu);
   const [menuItems, setMenuItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+  const {user} = props;
     const API_URL = import.meta.env.VITE_API_URL_API;
 
     // Fetch menu items on component mount
-    useEffect(() => {
-        const fetchMenuItems = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/list_items`);
-                //console.log(response.data);
-                setMenuItems(response.data);
-                setLoading(false);
-            } catch (err) {
-                setError('Error fetching menu items');
-                setLoading(false);
-                console.log(err);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchMenuItems = async () => {
+    //         try {
+    //             const response = await axios.get(`${API_URL}/list_items`);
+    //             //console.log(response.data);
+    //             setMenuItems(response.data);
+    //             setLoading(false);
+    //         } catch (err) {
+    //             setError('Error fetching menu items');
+    //             setLoading(false);
+    //             console.log(err);
+    //         }
+    //     };
 
-        fetchMenuItems();
-    }, [API_URL]);
+    //     fetchMenuItems();
+    // }, [API_URL]);
 
-    if (loading) {
-        return <div>Loading...</div>;
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    // if (error) {
+    //     return <div>{error}</div>;
+    // }
+
+ // Fetch menu items on component mount
+ useEffect(() => {
+  const fetchMenuItems = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/list_items`);
+      setMenuItems(response.data);
+    } catch (err) {
+      setError('Error fetching menu items');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (error) {
-        return <div>{error}</div>;
+  fetchMenuItems();
+}, [API_URL]);
+
+
+
+
+
+
+    // const handleAddItem = async(itemid)=>{
+    //   let newItemQuantity;
+    
+    //   try{
+
+    //     if(!user){
+    //       toastr.error("Login to add items");
+    //     }
+    //     else{
+    //       let userId=user.id;
+    //     const response=await axios.get(`${API_URL}/cart/${user.id}/item/${itemid}`);
+    //     if(response.data.success){
+    //         console.log(response.data.quantity);
+
+    //          newItemQuantity=response.data.quantity + 1;
+    //         const addResponse= await axios.post(`${API_URL}/add_items`,{userId,itemid,newItemQuantity})
+    //         if(addResponse.data.success){
+    //           toastr.success(addResponse.data.message);
+    //         }
+    //      }
+    //      else{
+    //       console.log("error fetching")
+    //      }
+    //   }
+    //   }
+    //   catch(error){
+    //     console.log("can not add item",error);
+    //   }
+    // }
+    // const handleAddItem = async (itemId) => {
+    //   try {
+    //     if (!user) {
+    //       toastr.error("Login to add items");
+    //       return;
+    //     }
+    
+    //     let userId = user.id;
+    //     const response = await axios.get(`${API_URL}/cart/${userId}/item/${itemId}`);
+        
+    //     let newItemQuantity = 1; // Default to 1 if the item is not in the cart yet
+    
+    //     if (response.data.success) {
+    //       newItemQuantity = response.data.quantity + 1; // Increment quantity if the item exists
+    //     }
+    
+    //     // Add item to the cart
+    //     const addResponse = await axios.post(`${API_URL}/cart/add`, { userId, itemId, newItemQuantity });
+    //     if (addResponse.data.success) {
+    //       toastr.success(addResponse.data.message);
+    //     }
+    
+    //   } catch (error) {
+    //     console.log("Cannot add item", error);
+    //     toastr.error("Failed to add item to cart");
+    //   }
+    // };
+
+    const handleAddItem = async (itemId) => {
+      if (!user) {
+        toastr.error("Login to add items");
+        return;
     }
+      try {
+          
+  
+          const userId = user.id;
+          const newItemQuantity = 1; // Default to adding 1 item
+  
+          // Add item to the cart (the backend will handle updating the quantity if needed)
+          const response = await axios.post(`${API_URL}/cart/add`, { userId, itemId, newItemQuantity });
+          
+          if (response.data.success) {
+              toastr.success(response.data.message);
+          } else {
+              toastr.error(response.data.message);
+          }
+  
+      } catch (error) {
+          console.error("Cannot add item", error);
+          toastr.error("Failed to add item to cart");
+      }
+  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
+  if (error) {
+    return <div>{error}</div>;
+  }
+  
+    
   return (
     <>
       <div className="home-container">
@@ -103,7 +218,7 @@ const Home = () => {
                     <div className="item_price w-32  text-lg mt-1 font-bold ">
                       ₹{item.price}
                     </div>
-                    <button className="add-button border border-red-500 text-red-500 px-3 sm:px-7 sm:py-1 text-base font-bold">
+                    <button className="add-button border border-red-500 text-red-500 px-3 sm:px-7 sm:py-1 text-base font-bold" onClick={()=>handleAddItem(item._id)} >
                      <span> + Add</span>
                     </button>
                   </div>
@@ -116,5 +231,18 @@ const Home = () => {
     </>
   );
 };
+Home.propTypes = {
+  auth: PropTypes.bool, // auth is a boolean and required
+user: PropTypes.oneOfType([      // user can be null or an object
+  PropTypes.shape({
+    // Define the expected structure of the user object
+    id: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    // Add other properties of the user object as needed
+  }),
+  PropTypes.oneOf([null])        // or null
+]),
 
+};
 export default Home;
