@@ -10,4 +10,5 @@ cartRouter.get('/cart/:userId/item/:itemId',cartController.listCartItems);
 //  to fetch all cart items for a specific user
 cartRouter.get('/cart/:userId', cartController.listAllCartItems);
 
+cartRouter.post('/cart/qtyinc',cartController.qtyinc);
 module.exports=cartRouter;
